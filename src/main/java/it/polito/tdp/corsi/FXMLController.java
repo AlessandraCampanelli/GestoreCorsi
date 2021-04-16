@@ -5,7 +5,11 @@
 package it.polito.tdp.corsi;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.corsi.model.Corso;
 import it.polito.tdp.corsi.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,12 +50,60 @@ public class FXMLController {
 
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
+    	txtRisultato.clear();
+    	if(txtPeriodo.getText()==null) { 
+   		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+   		 return;
+    	}
+    	String periodoStringa=txtPeriodo.getText();
+    	Integer periodo;
+    	//CONTROLLO
     	
+    	 
+    	 try {
+    		 periodo= Integer.parseInt(periodoStringa);
+    	 }catch(NumberFormatException e ) {
+    		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+    	 return;
+    	 }
+    	 if(periodo>2 || periodo<1)
+    		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+  List <Corso>corsi =this.model.getCorsiByPeriodo(periodo);
+  for(Corso c:corsi) 
+	  txtRisultato.appendText(c.toString()+"\n");
+	  
+  
+    
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	txtRisultato.clear();
+    	if(txtPeriodo.getText()==null) { 
+   		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+   		 return;
+    	}
+    	String periodoStringa=txtPeriodo.getText();
+    	Integer periodo;
+    	//CONTROLLO
     	
+    	 
+    	 try {
+    		 periodo= Integer.parseInt(periodoStringa);
+    	 }catch(NumberFormatException e ) {
+    		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+    	 return;
+    	 }
+    	 if(periodo>2 || periodo<1)
+    		 txtRisultato.setText("Devi inserire un numero 1 o 2 per il periodo didattico" );
+   
+    
+    Map<Corso,Integer>corsiIscrizioni = this.model.getIscrittiByPeriodo(periodo);
+    for( Corso c: corsiIscrizioni.keySet()) {
+    	txtRisultato.appendText(c.toString());
+    	Integer n = corsiIscrizioni.get(c);
+    	txtRisultato.appendText("\t"+n+"\n");
+    }
     }
 
     @FXML
